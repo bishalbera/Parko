@@ -1,34 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:parko/features/auth/screens/sign%20up/signup_screen.dart';
+import 'package:parko/features/auth/models/user.dart';
 
-import '../../../../../common/constants/utils.dart';
-import '../../../controllers/auth_controller.dart';
-import '../widgets/custom_login_button.dart';
-import '../widgets/custom_text_field.dart';
+import '../../../../common/constants/utils.dart';
+import '../../controllers/auth_controller.dart';
+import '../log in/screens/login_screen.dart';
+import '../log in/widgets/custom_signup_button.dart';
+import '../log in/widgets/custom_text_field.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  void signUp(BuildContext context) {
+    UserModel model = UserModel(
+        name: _nameController.text,
+        uid: '',
+        email: _emailController.text,
+        profilePicture: '',
+        password: _passwordController.text);
+
+    AuthController controller = AuthController();
+
+    controller.signUp(context, model);
+  }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-  }
-
-  void logIn(BuildContext context) {
-    AuthController controller = AuthController();
-    controller.logIn(context, _emailController.text, _passwordController.text);
   }
 
   @override
@@ -41,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: [
               Container(
-                height: size.height * 0.3,
+                height: size.height * 0.2,
                 width: double.infinity,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -50,17 +61,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 68.0, top: 20),
+                  padding: const EdgeInsets.only(right: 68.0, top: 0),
                   child: Column(
                     children: [
                       const SizedBox(
                         height: 30,
                       ),
                       Text(
-                        "Sign in to your\nAccount",
+                        "Sign up to make a \nbrand new Account",
                         style: GoogleFonts.poppins(
                           color: Colors.white,
-                          fontSize: 32,
+                          fontSize: 22,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -68,12 +79,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 10,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 28.0),
+                        padding: const EdgeInsets.only(left: 32.0),
                         child: Text(
-                          "Sign in to your Account",
+                          "Sign up , and make a brand new Account",
                           style: GoogleFonts.poppins(
                             color: Colors.grey.shade200,
-                            fontSize: 18,
+                            fontSize: 13,
                             fontWeight: FontWeight.w300,
                           ),
                         ),
@@ -84,6 +95,40 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(
                 height: 30,
+              ),
+              Stack(
+                children: [
+                  const CircleAvatar(
+                    backgroundImage:
+                        AssetImage('resources/images/car_clipart.png'),
+                    radius: 40,
+                  ),
+                  Positioned(
+                    child: IconButton(
+                      onPressed: () {
+                        pickImage(context);
+                        setState(() {});
+                      },
+                      icon: const Icon(
+                        Icons.add_a_photo,
+                        color: Colors.green,
+                      ),
+                    ),
+                    top: 40,
+                    left: 40,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              CustomTextField(
+                label: 'Name',
+                controller: _nameController,
+                keyboardType: TextInputType.text,
+              ),
+              const SizedBox(
+                height: 20,
               ),
               CustomTextField(
                 label: 'Email',
@@ -102,50 +147,35 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 30,
               ),
-              Container(
-                margin: const EdgeInsets.only(right: 20),
-                width: double.infinity,
-                alignment: Alignment.centerRight,
-                child: Text(
-                  "Forgot Password?",
-                  style: GoogleFonts.poppins(
-                    color: Colors.green,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
+
               GestureDetector(
-                  onTap: () {},
-                  child: GestureDetector(
-                      onTap: () {
-                        logIn(context);
-                      },
-                      child: const CustomLoginButton())),
+                onTap: () {
+                  signUp(context);
+                },
+                child: const CustomSignUpButton(),
+              ),
               const SizedBox(
                 height: 30,
               ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Center(
                     child: Text(
-                      "Don't have an account?",
+                      "Already have an account!!",
                       style: GoogleFonts.roboto(
                         color: Colors.black,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
-                      moveScreen(context, SignUpScreen());
+                      moveScreen(context, const LoginScreen());
                     },
                     child: Text(
-                      "\tSign up",
+                      "\tLog in",
                       style: GoogleFonts.roboto(
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,

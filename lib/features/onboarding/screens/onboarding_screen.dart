@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:parko/common/constants/utils.dart';
 import 'package:parko/constants/common/custom_continue_button.dart';
+import 'package:parko/features/auth/screens/log%20in/screens/login_screen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -51,7 +53,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 height: 40,
               ),
               CustomContinueButton(
-                onTap: () {},
+                onTap: () {
+                  moveScreen(context, LoginScreen());
+                },
                 text: 'Continue',
                 color: HexColor('#999b9e'),
                 textColor: Colors.white,

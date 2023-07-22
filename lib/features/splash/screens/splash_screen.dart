@@ -2,7 +2,9 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:parko/common/constants/constants.dart';
 import 'package:parko/features/home/screens/home_screen.dart';
+import 'package:parko/features/onboarding/screens/onboarding_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key})
@@ -26,7 +28,8 @@ class SplashScreen extends StatelessWidget {
       animationDuration: const Duration(seconds: 3),
       splashTransition: SplashTransition.slideTransition,
       pageTransitionType: PageTransitionType.theme,
-      nextScreen: const HomeScreen(),
+      nextScreen:
+          firebaseAuth.currentUser != null ? HomeScreen() : OnBoardingScreen(),
     );
   }
 }
