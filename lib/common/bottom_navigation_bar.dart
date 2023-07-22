@@ -3,7 +3,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../features/home/screens/home_screen.dart';
 import '../features/profile/screens/profile_screen.dart';
-import '../features/splash/screens/services_screen.dart';
+import '../features/services/screens/services_screen.dart';
 import 'constants/utils.dart';
 
 class MyCustomBottomNavigationBar extends StatefulWidget {

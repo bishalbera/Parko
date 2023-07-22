@@ -13,3 +13,5 @@ var firebaseAuth = FirebaseAuth.instance;
 var ownerId = FirebaseAuth.instance.currentUser?.uid;
 
 File? imageFile;
+
+var locationData;

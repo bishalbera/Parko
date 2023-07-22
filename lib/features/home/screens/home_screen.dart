@@ -6,6 +6,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parko/assistants/assistant_methods.dart';
+import 'package:parko/common/my_drawer.dart';
 
 import 'package:parko/common/progress_dialog.dart';
 import 'package:parko/dataHandler/app_data.dart';
@@ -87,77 +88,27 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Home'),
       ),
-      drawer: Container(
-        color: Colors.white,
-        width: 255.0,
-        child: Drawer(
-          child: ListView(
-            children: [
-              //Drawer Header
-              Container(
-                height: 165.0,
-                child: const DrawerHeader(
-                  decoration: BoxDecoration(color: Colors.white),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.supervised_user_circle_rounded,
-                        size: 65.0,
-                      ),
-                      SizedBox(
-                        width: 16.0,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Name',
-                            style: TextStyle(
-                                fontSize: 16.0, fontFamily: "Brand-Bold"),
-                          ),
-                          SizedBox(
-                            height: 6.0,
-                          ),
-                          Text('Visit Profile'),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              const Divider(
-                height: 1.0,
-                thickness: 1.0,
-                color: Colors.grey,
-              ),
-              SizedBox(
-                height: 12.0,
-              ),
-
-              //Drawer Body
-              const ListTile(
-                leading: Icon(Icons.history),
-                title: Text(
-                  'History',
-                  style: TextStyle(fontSize: 15.0),
-                ),
-              ),
-              const ListTile(
-                leading: Icon(Icons.person),
-                title: Text(
-                  'Visit Profile',
-                  style: TextStyle(fontSize: 15.0),
-                ),
-              ),
-              const ListTile(
-                leading: Icon(Icons.info),
-                title: Text(
-                  'About',
-                  style: TextStyle(fontSize: 15.0),
-                ),
-              ),
-            ],
+      drawer: MyDrawer(
+        drawer: Material(
+          child: Container(
+            color: const Color(0xff24283b),
+            child: ListView.builder(
+              padding: const EdgeInsets.only(left: 100, top: 100),
+              itemCount: 20,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text('Item $index'),
+                );
+              },
+            ),
+          ),
+        ),
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Drawer'),
+          ),
+          body: Container(
+            color: const Color(0xff414868),
           ),
         ),
       ),
@@ -275,11 +226,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.home,
                           color: Colors.grey,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 12.0,
                         ),
                         Column(
@@ -291,15 +242,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Provider.of<AppData>(context)
                                     .currentLocation
                                     .placeName,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 12,
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 4.0,
                             ),
-                            Text(
+                            const Text(
                               'Current Address',
                               style: TextStyle(
                                   color: Colors.black54, fontSize: 12.0),
