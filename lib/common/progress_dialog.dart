@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProgressDialog extends StatelessWidget {
@@ -11,28 +10,28 @@ class ProgressDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: Colors.greenAccent,
       child: Container(
-        margin: EdgeInsets.all(15.0),
+        margin: const EdgeInsets.all(15.0),
         width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(6.0),
         ),
         child: Padding(
-          padding: EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(15.0),
           child: Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 6.0,
               ),
-              CircularProgressIndicator(
+              const CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 26.0,
               ),
               Text(
                 message,
-                style: TextStyle(color: Colors.black, fontSize: 10.0),
+                style: const TextStyle(color: Colors.black, fontSize: 10.0),
               ),
             ],
           ),
