@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "678017391356",
+    "project_id": "parko-flutter",
+    "storage_bucket": "parko-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678017391356:android:31430b51fb934760ab5579",
+        "android_client_info": {
+          "package_name": "com.example.parko"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "678017391356-lg4v4bdlq85gcq2ahpgj058d6nmqolf4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCS23LKA_nQCFV5hM0oBsa1teFy0d__jig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "678017391356-lg4v4bdlq85gcq2ahpgj058d6nmqolf4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
