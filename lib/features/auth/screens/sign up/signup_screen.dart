@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parko/features/auth/models/user.dart';
 
+import '../../../../common/constants/constants.dart';
 import '../../../../common/constants/utils.dart';
 import '../../controllers/auth_controller.dart';
 import '../log in/screens/login_screen.dart';
@@ -98,11 +99,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               Stack(
                 children: [
-                  const CircleAvatar(
-                    backgroundImage:
-                        AssetImage('resources/images/car_clipart.png'),
-                    radius: 40,
-                  ),
+                  imageFile != null
+                      ? CircleAvatar(
+                          backgroundImage: FileImage(imageFile!),
+                          radius: 40,
+                        )
+                      : CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              'https://static.vecteezy.com/system/resources/previews/021/548/095/original/default-profile-picture-avatar-user-avatar-icon-person-icon-head-icon-profile-picture-icons-default-anonymous-user-male-and-female-businessman-photo-placeholder-social-network-avatar-portrait-free-vector.jpg'),
+                          radius: 40,
+                        ),
                   Positioned(
                     child: IconButton(
                       onPressed: () {
@@ -147,7 +153,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(
                 height: 30,
               ),
-
               GestureDetector(
                 onTap: () {
                   signUp(context);
@@ -157,7 +162,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(
                 height: 30,
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
