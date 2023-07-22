@@ -57,6 +57,8 @@ class _ParkingScreenState extends State<ParkingScreen> {
   CollectionReference _parkingCollection =
       FirebaseFirestore.instance.collection('parking_spots');
 
+  String? locationData; // Store the geohash string of the current location
+
   //Function to get the users currents location
   Future<Position> _getCurrentLocation() async {
     bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -70,21 +72,12 @@ class _ParkingScreenState extends State<ParkingScreen> {
   }
 
   // Function to fetch nearby parking spots from firestore and update the markers list
-
-  Future<DocumentReference> _addGeoPoint() async {
-    var pos = await _getCurrentLocation();
-    GeoFirePoint point =
-        _geo.point(latitude: pos.latitude, longitude: pos.longitude);
-    return firestore
-        .collection('locations')
-        .add({'position': point.data, 'name': 'date-stored'});
-  }
-
   void fetchNearbyParkingSpotsAndUserLocation() async {
     try {
       // Get the users current location
       Position userPosition = await _getCurrentLocation();
 
+      // Add a marker for the user's location
       _parkingMarkers.add(
         Marker(
           markerId: MarkerId('userLocation'),
@@ -96,11 +89,13 @@ class _ParkingScreenState extends State<ParkingScreen> {
         ),
       );
 
-      // Create a GeoFirePoint for the users location
+      // Create a GeoFirePoint for the user's location
       GeoFirePoint userGeoPoint = _geo.point(
-          latitude: userPosition.latitude, longitude: userPosition.longitude);
+        latitude: userPosition.latitude,
+        longitude: userPosition.longitude,
+      );
 
-      // Set the radius for nearby parking search(in KM)
+      // Set the radius for nearby parking search (in KM)
       double radius = 2.0;
 
       // Perform a query to get nearby parking spots
@@ -113,7 +108,7 @@ class _ParkingScreenState extends State<ParkingScreen> {
         List<Marker> markers = [];
 
         documentList.forEach((DocumentSnapshot document) {
-          GeoPoint geoPoint = document['location'];
+          GeoPoint geoPoint = document['location']['geopoint'];
           String parkingSpotId = document.id;
           String parkingSpotName = document['name'];
           String parkingSpotAddress = document['address'];
@@ -123,30 +118,34 @@ class _ParkingScreenState extends State<ParkingScreen> {
           // Create a marker for parking spot
           if (isParkingSpotAvailable) {
             Marker marker = Marker(
-                markerId: MarkerId(parkingSpotId),
-                infoWindow: InfoWindow(
-                  title: parkingSpotName,
-                  snippet: 'Price: $pricePerHour',
-                ),
-                position: LatLng(geoPoint.latitude, geoPoint.longitude),
-                icon: BitmapDescriptor.defaultMarker,
-                onTap: () {
-                  showParkingDetails(
-                    ParkingSpotForRent(
-                        id: parkingSpotId,
-                        name: parkingSpotName,
-                        latitude: geoPoint.latitude,
-                        longitude: geoPoint.longitude,
-                        address: parkingSpotAddress,
-                        isParkingSpotAvailable: isParkingSpotAvailable,
-                        pricePerHour: pricePerHour),
-                  );
-                });
+              markerId: MarkerId(parkingSpotId),
+              infoWindow: InfoWindow(
+                title: parkingSpotName,
+                snippet: 'Price: $pricePerHour',
+              ),
+              position: LatLng(geoPoint.latitude, geoPoint.longitude),
+              icon: BitmapDescriptor.defaultMarker,
+              onTap: () {
+                showParkingDetails(
+                  ParkingSpotForRent(
+                    id: parkingSpotId,
+                    name: parkingSpotName,
+                    latitude: geoPoint.latitude,
+                    longitude: geoPoint.longitude,
+                    address: parkingSpotAddress,
+                    isParkingSpotAvailable: isParkingSpotAvailable,
+                    pricePerHour: pricePerHour,
+                  ),
+                );
+              },
+            );
             markers.add(marker);
           }
         });
 
-        setState(() {});
+        setState(() {
+          _parkingMarkers = Set<Marker>.from(markers);
+        });
       });
     } catch (e) {
       if (kDebugMode) {
@@ -160,15 +159,19 @@ class _ParkingScreenState extends State<ParkingScreen> {
     GeoFirePoint point =
         await _geo.point(latitude: pos.latitude, longitude: pos.longitude);
     // Create a GeoFirePoint for the users location
-    String placeName = await getAddressFromLatLng(pos.latitude, pos.longitude); 
-    locationData = '${pos.latitude},${pos.longitude}';
+    String placeName = await getAddressFromLatLng(pos.latitude, pos.longitude);
+    locationData = point.hash; // Store the geohash string in locationData
     print('the point data is ${locationData}');
     if (markerId.value == 'userLocation') {
       Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ListParkingSpotScreen(ownerId: ownerId!,placeName: placeName),
-          ));
+        context,
+        MaterialPageRoute(
+          builder: (context) => ListParkingSpotScreen(
+            ownerId: ownerId!, // Replace ownerId with the actual owner ID
+            placeName: placeName,
+          ),
+        ),
+      );
     }
   }
 
@@ -190,28 +193,30 @@ class _ParkingScreenState extends State<ParkingScreen> {
   // Function to show parking details when a marker is tapped
   void showParkingDetails(ParkingSpotForRent parkingSpot) {
     showDialog(
-        context: context,
-        builder: (BuildContext) {
-          return AlertDialog(
-            title: Text(parkingSpot.name),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Address: ${parkingSpot.address}'),
-                Text(
-                    'Availability: ${parkingSpot.isParkingSpotAvailable ? 'Available' : 'Occupied'}'),
-              ],
-            ),
-            actions: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Close'),
+      context: context,
+      builder: (BuildContext) {
+        return AlertDialog(
+          title: Text(parkingSpot.name),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Address: ${parkingSpot.address}'),
+              Text(
+                'Availability: ${parkingSpot.isParkingSpotAvailable ? 'Available' : 'Occupied'}',
               ),
             ],
-          );
-        });
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
