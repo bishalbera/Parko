@@ -6,10 +6,13 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parko/assistants/assistant_methods.dart';
+
 import 'package:parko/common/progress_dialog.dart';
 import 'package:parko/dataHandler/app_data.dart';
 import 'package:parko/features/search/screens/search_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../../../common/bottom_navigation_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +22,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
+
   final Completer<GoogleMapController> _controllerGoogleMap =
       Completer<GoogleMapController>();
 
@@ -77,6 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: MyCustomBottomNavigationBar(),
       appBar: AppBar(
         title: const Text('Home'),
       ),
@@ -89,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
               //Drawer Header
               Container(
                 height: 165.0,
-                child: DrawerHeader(
+                child: const DrawerHeader(
                   decoration: BoxDecoration(color: Colors.white),
                   child: Row(
                     children: [
@@ -278,10 +285,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              Provider.of<AppData>(context)
-                                  .currentLocation
-                                  .placeName,
+                            Container(
+                              width: 270,
+                              child: Text(
+                                Provider.of<AppData>(context)
+                                    .currentLocation
+                                    .placeName,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
                             ),
                             SizedBox(
                               height: 4.0,

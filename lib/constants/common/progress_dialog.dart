@@ -20,18 +20,18 @@ class ProgressDialog extends StatelessWidget {
           padding: EdgeInsets.all(15.0),
           child: Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 6.0,
               ),
-              CircularProgressIndicator(
+              const CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 26.0,
               ),
               Text(
                 message,
-                style: TextStyle(color: Colors.black, fontSize: 10.0),
+                style: const TextStyle(color: Colors.black, fontSize: 10.0),
               ),
             ],
           ),

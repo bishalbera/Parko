@@ -43,3 +43,15 @@ void pickImage(BuildContext context) async {
   final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
   imageFile = File(image!.path);
 }
+
+PreferredSizeWidget makeAppBar(BuildContext context,
+    {String title = "$appName"}) {
+  return PreferredSize(
+    preferredSize: const Size(double.infinity, kToolbarHeight),
+    child: AppBar(
+      title: Text(title),
+      centerTitle: true,
+    ),
+  );
+}
+
