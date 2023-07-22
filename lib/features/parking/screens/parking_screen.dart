@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -160,14 +159,15 @@ class _ParkingScreenState extends State<ParkingScreen> {
     GeoFirePoint point =
         await _geo.point(latitude: pos.latitude, longitude: pos.longitude);
     // Create a GeoFirePoint for the users location
-    String placeName = await getAddressFromLatLng(pos.latitude, pos.longitude); 
+    String placeName = await getAddressFromLatLng(pos.latitude, pos.longitude);
     locationData = '${pos.latitude},${pos.longitude}';
     print('the point data is ${locationData}');
     if (markerId.value == 'userLocation') {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ListParkingSpotScreen(ownerId: ownerId!,placeName: placeName),
+            builder: (context) =>
+                ListParkingSpotScreen(ownerId: ownerId!, placeName: placeName),
           ));
     }
   }
