@@ -2,8 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:parko/assistants/assistant_methods.dart';
+import 'package:parko/common/progress_dialog.dart';
+import 'package:parko/dataHandler/app_data.dart';
+import 'package:parko/features/search/screens/search_screen.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -56,10 +62,10 @@ class _HomeScreenState extends State<HomeScreen> {
     newGoogleMapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-    // var address =
-    //     await AssistantMethods.searchCoordinatesAddress(position, context);
+    var address =
+        await AssistantMethods.searchCoordinatesAddress(position, context);
     if (kDebugMode) {
-      // print("This is current address $address");
+      print("This is current address $address");
     }
   }
 
@@ -211,7 +217,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 20.0,
                     ),
                     GestureDetector(
-                      onTap: () async {},
+                      onTap: () async {
+                        var res = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SearchScreen()));
+                        if (res == "obtainDirection") {
+                          await getPlaceDirection();
+                        }
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -235,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               SizedBox(
                                 width: 10.0,
                               ),
-                              Text('Search Parking Places')
+                              Text('Search Places')
                             ],
                           ),
                         ),
@@ -264,7 +278,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(''),
+                            Text(
+                              Provider.of<AppData>(context)
+                                  .currentLocation
+                                  .placeName,
+                            ),
                             SizedBox(
                               height: 4.0,
                             ),
@@ -287,131 +305,131 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-// Future<void> getPlaceDirection() async {
-//   final appData = Provider.of<AppData>(context, listen: false);
+  Future<void> getPlaceDirection() async {
+    final appData = Provider.of<AppData>(context, listen: false);
 
-//   final initialPos = appData.currentLocation;
-//   final destinationPos = appData.destinationLocation;
+    final initialPos = appData.currentLocation;
+    final destinationPos = appData.destinationLocation;
 
-//   final currentLatLng = LatLng(initialPos.latitude, initialPos.longitude);
-//   final destinationLatLng =
-//       LatLng(destinationPos.latitude, destinationPos.longitude);
+    final currentLatLng = LatLng(initialPos.latitude, initialPos.longitude);
+    final destinationLatLng =
+        LatLng(destinationPos.latitude, destinationPos.longitude);
 
-//   showDialog(
-//       context: context,
-//       builder: (BuildContext context) =>
-//           ProgressDialog(message: 'Please wait...'));
+    showDialog(
+        context: context,
+        builder: (BuildContext context) =>
+            ProgressDialog(message: 'Please wait...'));
 
-//   final details = await AssistantMethods.obtainedPlaceDirectionDetails(
-//       currentLatLng, destinationLatLng);
+    final details = await AssistantMethods.obtainedPlaceDirectionDetails(
+        currentLatLng, destinationLatLng);
 
-//   // Access context again here
-//   Navigator.pop(context);
+    // Access context again here
+    Navigator.pop(context);
 
-//   if (kDebugMode) {
-//     print('This is the encodedPoints ${details?.encodedPoints}');
-//   }
+    if (kDebugMode) {
+      print('This is the encodedPoints ${details?.encodedPoints}');
+    }
 
-//   PolylinePoints polylinePoints = PolylinePoints();
-//   List<PointLatLng> decodePolylinePointResults =
-//       polylinePoints.decodePolyline(details!.encodedPoints);
+    PolylinePoints polylinePoints = PolylinePoints();
+    List<PointLatLng> decodePolylinePointResults =
+        polylinePoints.decodePolyline(details!.encodedPoints);
 
-//   pLineCoordinates.clear();
+    pLineCoordinates.clear();
 
-//   if (decodePolylinePointResults.isNotEmpty) {
-//     decodePolylinePointResults.forEach((PointLatLng pointLatLng) {
-//       pLineCoordinates
-//           .add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
-//     });
-//   }
+    if (decodePolylinePointResults.isNotEmpty) {
+      decodePolylinePointResults.forEach((PointLatLng pointLatLng) {
+        pLineCoordinates
+            .add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
+      });
+    }
 
-//   polylineSet.clear();
-//   setState(() {
-//     Polyline polyline = Polyline(
-//       color: Colors.pink,
-//       polylineId: PolylineId('PolylineId'),
-//       jointType: JointType.round,
-//       points: pLineCoordinates,
-//       width: 5,
-//       startCap: Cap.roundCap,
-//       endCap: Cap.roundCap,
-//       geodesic: true,
-//     );
+    polylineSet.clear();
+    setState(() {
+      Polyline polyline = Polyline(
+        color: Colors.pink,
+        polylineId: PolylineId('PolylineId'),
+        jointType: JointType.round,
+        points: pLineCoordinates,
+        width: 5,
+        startCap: Cap.roundCap,
+        endCap: Cap.roundCap,
+        geodesic: true,
+      );
 
-//     polylineSet.add(polyline);
-//   });
+      polylineSet.add(polyline);
+    });
 
-//   LatLngBounds latLngBounds;
-//   if (currentLatLng.latitude > destinationLatLng.latitude &&
-//       currentLatLng.longitude > destinationLatLng.longitude) {
-//     latLngBounds =
-//         LatLngBounds(southwest: destinationLatLng, northeast: currentLatLng);
-//   } else if (currentLatLng.longitude > destinationLatLng.longitude) {
-//     latLngBounds = LatLngBounds(
-//         southwest:
-//             LatLng(currentLatLng.latitude, destinationLatLng.longitude),
-//         northeast:
-//             LatLng(destinationLatLng.latitude, currentLatLng.longitude));
-//   } else if (currentLatLng.latitude > destinationLatLng.latitude) {
-//     latLngBounds = LatLngBounds(
-//         southwest:
-//             LatLng(destinationLatLng.latitude, currentLatLng.longitude),
-//         northeast:
-//             LatLng(currentLatLng.latitude, destinationLatLng.longitude));
-//   } else {
-//     latLngBounds =
-//         LatLngBounds(southwest: currentLatLng, northeast: destinationLatLng);
-//   }
+    LatLngBounds latLngBounds;
+    if (currentLatLng.latitude > destinationLatLng.latitude &&
+        currentLatLng.longitude > destinationLatLng.longitude) {
+      latLngBounds =
+          LatLngBounds(southwest: destinationLatLng, northeast: currentLatLng);
+    } else if (currentLatLng.longitude > destinationLatLng.longitude) {
+      latLngBounds = LatLngBounds(
+          southwest:
+              LatLng(currentLatLng.latitude, destinationLatLng.longitude),
+          northeast:
+              LatLng(destinationLatLng.latitude, currentLatLng.longitude));
+    } else if (currentLatLng.latitude > destinationLatLng.latitude) {
+      latLngBounds = LatLngBounds(
+          southwest:
+              LatLng(destinationLatLng.latitude, currentLatLng.longitude),
+          northeast:
+              LatLng(currentLatLng.latitude, destinationLatLng.longitude));
+    } else {
+      latLngBounds =
+          LatLngBounds(southwest: currentLatLng, northeast: destinationLatLng);
+    }
 
-//   newGoogleMapController
-//       .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 70));
+    newGoogleMapController
+        .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 70));
 
-//   Marker currentLocationMarker = Marker(
-//     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-//     infoWindow: InfoWindow(
-//       title: initialPos.placeName,
-//       snippet: "Current Location",
-//     ),
-//     position: currentLatLng,
-//     markerId: MarkerId('currentLocationId'),
-//   );
+    Marker currentLocationMarker = Marker(
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+      infoWindow: InfoWindow(
+        title: initialPos.placeName,
+        snippet: "Current Location",
+      ),
+      position: currentLatLng,
+      markerId: MarkerId('currentLocationId'),
+    );
 
-//   Marker destinationLocationMarker = Marker(
-//     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-//     infoWindow: InfoWindow(
-//       title: destinationPos.placeName,
-//       snippet: "Destination Location",
-//     ),
-//     position: destinationLatLng,
-//     markerId: MarkerId('destinationLocationId'),
-//   );
+    Marker destinationLocationMarker = Marker(
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+      infoWindow: InfoWindow(
+        title: destinationPos.placeName,
+        snippet: "Destination Location",
+      ),
+      position: destinationLatLng,
+      markerId: MarkerId('destinationLocationId'),
+    );
 
-//   setState(() {
-//     markersSet.add(currentLocationMarker);
-//     markersSet.add(destinationLocationMarker);
-//   });
+    setState(() {
+      markersSet.add(currentLocationMarker);
+      markersSet.add(destinationLocationMarker);
+    });
 
-//   Circle currentLocationCircle = Circle(
-//     fillColor: Colors.blueAccent,
-//     center: currentLatLng,
-//     radius: 12,
-//     strokeWidth: 4,
-//     strokeColor: Colors.blueAccent,
-//     circleId: CircleId('currentLocationId'),
-//   );
+    Circle currentLocationCircle = Circle(
+      fillColor: Colors.blueAccent,
+      center: currentLatLng,
+      radius: 12,
+      strokeWidth: 4,
+      strokeColor: Colors.blueAccent,
+      circleId: CircleId('currentLocationId'),
+    );
 
-//   Circle destinationLocationCircle = Circle(
-//     fillColor: Colors.purpleAccent,
-//     center: destinationLatLng,
-//     radius: 12,
-//     strokeWidth: 4,
-//     strokeColor: Colors.purpleAccent,
-//     circleId: CircleId('destinationLocationId'),
-//   );
+    Circle destinationLocationCircle = Circle(
+      fillColor: Colors.purpleAccent,
+      center: destinationLatLng,
+      radius: 12,
+      strokeWidth: 4,
+      strokeColor: Colors.purpleAccent,
+      circleId: CircleId('destinationLocationId'),
+    );
 
-//   setState(() {
-//     circlesSet.add(currentLocationCircle);
-//     circlesSet.add(destinationLocationCircle);
-//   });
-// }
+    setState(() {
+      circlesSet.add(currentLocationCircle);
+      circlesSet.add(destinationLocationCircle);
+    });
+  }
 }
