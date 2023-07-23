@@ -61,7 +61,7 @@ class _BookingSpotDetailsScreenState extends State<BookingSpotDetailsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          "${widget.address}",
+                          widget.address,
                           style: GoogleFonts.roboto(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,

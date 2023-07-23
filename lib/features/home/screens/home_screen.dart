@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:fancy_drawer/fancy_drawer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -25,10 +23,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  late FancyDrawerController _controller;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
-
   final Completer<GoogleMapController> _controllerGoogleMap =
       Completer<GoogleMapController>();
 
@@ -83,17 +77,6 @@ class _HomeScreenState extends State<HomeScreen>
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _controller = FancyDrawerController(
-        vsync: this, duration: Duration(milliseconds: 350))
-      ..addListener(() {
-        setState(() {});
-      });
-  }
 
   @override
   Widget build(BuildContext context) {
