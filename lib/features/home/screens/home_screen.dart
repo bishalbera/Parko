@@ -1,13 +1,13 @@
 import 'dart:async';
 
+import 'package:fancy_drawer/fancy_drawer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parko/assistants/assistant_methods.dart';
-import 'package:parko/common/my_drawer.dart';
-
 import 'package:parko/common/progress_dialog.dart';
 import 'package:parko/dataHandler/app_data.dart';
 import 'package:parko/features/search/screens/search_screen.dart';
@@ -22,7 +22,9 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late FancyDrawerController _controller;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
 
@@ -82,189 +84,233 @@ class _HomeScreenState extends State<HomeScreen> {
   );
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = FancyDrawerController(
+        vsync: this, duration: Duration(milliseconds: 1250))
+      ..addListener(() {
+        setState(() {});
+      });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: MyCustomBottomNavigationBar(),
       appBar: AppBar(
+        elevation: 4.0,
         title: const Text('Home'),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Icon(
+            Icons.menu,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            _controller.toggle();
+          },
+        ),
       ),
-      drawer: MyDrawer(
-        drawer: Material(
-          child: Container(
-            color: const Color(0xff24283b),
-            child: ListView.builder(
-              padding: const EdgeInsets.only(left: 100, top: 100),
-              itemCount: 20,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text('Item $index'),
-                );
-              },
+      body: FancyDrawerWrapper(
+        backgroundColor: Colors.white,
+        controller: _controller,
+        drawerItems: <Widget>[
+          Text(
+            "Go to home",
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.purple.shade700,
+              fontWeight: FontWeight.bold,
             ),
           ),
-        ),
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Drawer'),
+          Text(
+            "About us",
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.purple.shade700,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          body: Container(
-            color: const Color(0xff414868),
+          Text(
+            "Our products",
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.purple.shade700,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-      ),
-      body: Stack(
-        children: [
-          GoogleMap(
-            padding: EdgeInsets.only(bottom: bottomPaddingOfMap),
-            mapType: MapType.normal,
-            myLocationButtonEnabled: true,
-            myLocationEnabled: true,
-            zoomGesturesEnabled: true,
-            zoomControlsEnabled: true,
-            polylines: polylineSet,
-            markers: markersSet,
-            circles: circlesSet,
-            initialCameraPosition: _kGooglePlex,
-            onMapCreated: (GoogleMapController controller) {
-              _controllerGoogleMap.complete(controller);
-              newGoogleMapController = controller;
-
-              setState(() {
-                bottomPaddingOfMap = 300.0;
-              });
-
-              locatePosition();
-            },
+          Text(
+            "Support us",
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.purple.shade700,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          Positioned(
-            left: 0.0,
-            right: 0.0,
-            bottom: 0.0,
-            child: Container(
-              height: 300.0,
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(18.0),
-                    topRight: Radius.circular(18.0),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black,
-                      blurRadius: 16.0,
-                      spreadRadius: 0.5,
-                      offset: Offset(0.7, 0.7),
-                    ),
-                  ]),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24.0,
-                  vertical: 18.0,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 6.0,
-                    ),
-                    const Text(
-                      'Hi there,',
-                      style: TextStyle(fontSize: 22.0),
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    GestureDetector(
-                      onTap: () async {
-                        var res = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SearchScreen()));
-                        if (res == "obtainDirection") {
-                          await getPlaceDirection();
-                        }
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5.0),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black54,
-                                blurRadius: 6.0,
-                                spreadRadius: 0.5,
-                                offset: Offset(0.7, 0.7),
-                              ),
-                            ]),
-                        child: const Padding(
-                          padding: EdgeInsets.all(15.0),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.search,
-                                color: Colors.greenAccent,
-                              ),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              Text('Search Places')
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 24.0,
-                    ),
-                    const Divider(
-                      height: 1.0,
-                      thickness: 1.0,
-                      color: Colors.grey,
-                    ),
-                    const SizedBox(
-                      height: 24.0,
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.home,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(
-                          width: 12.0,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 270,
-                              child: Text(
-                                Provider.of<AppData>(context)
-                                    .currentLocation
-                                    .placeName,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 4.0,
-                            ),
-                            const Text(
-                              'Current Address',
-                              style: TextStyle(
-                                  color: Colors.black54, fontSize: 12.0),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+          Text(
+            "Log out",
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.purple.shade700,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],
+        child: Stack(
+          children: [
+            GoogleMap(
+              padding: EdgeInsets.only(bottom: bottomPaddingOfMap),
+              mapType: MapType.normal,
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              zoomGesturesEnabled: true,
+              zoomControlsEnabled: true,
+              polylines: polylineSet,
+              markers: markersSet,
+              circles: circlesSet,
+              initialCameraPosition: _kGooglePlex,
+              onMapCreated: (GoogleMapController controller) {
+                _controllerGoogleMap.complete(controller);
+                newGoogleMapController = controller;
+
+                setState(() {
+                  bottomPaddingOfMap = 300.0;
+                });
+
+                locatePosition();
+              },
+            ),
+            Positioned(
+              left: 0.0,
+              right: 0.0,
+              bottom: 0.0,
+              child: Container(
+                height: 300.0,
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(18.0),
+                      topRight: Radius.circular(18.0),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 16.0,
+                        spreadRadius: 0.5,
+                        offset: Offset(0.7, 0.7),
+                      ),
+                    ]),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24.0,
+                    vertical: 18.0,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 6.0,
+                      ),
+                      const Text(
+                        'Hi there,',
+                        style: TextStyle(fontSize: 22.0),
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          var res = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SearchScreen()));
+                          if (res == "obtainDirection") {
+                            await getPlaceDirection();
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5.0),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black54,
+                                  blurRadius: 6.0,
+                                  spreadRadius: 0.5,
+                                  offset: Offset(0.7, 0.7),
+                                ),
+                              ]),
+                          child: const Padding(
+                            padding: EdgeInsets.all(15.0),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.search,
+                                  color: Colors.greenAccent,
+                                ),
+                                SizedBox(
+                                  width: 10.0,
+                                ),
+                                Text('Search Places')
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 24.0,
+                      ),
+                      const Divider(
+                        height: 1.0,
+                        thickness: 1.0,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(
+                        height: 24.0,
+                      ),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.home,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(
+                            width: 12.0,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 270,
+                                child: Text(
+                                  Provider.of<AppData>(context)
+                                      .currentLocation
+                                      .placeName,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 4.0,
+                              ),
+                              const Text(
+                                'Current Address',
+                                style: TextStyle(
+                                    color: Colors.black54, fontSize: 12.0),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
