@@ -6,6 +6,7 @@ import 'dataHandler/app_data.dart';
 import 'features/splash/screens/splash_screen.dart';
 
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
