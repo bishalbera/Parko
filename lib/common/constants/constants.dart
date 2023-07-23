@@ -164,7 +164,7 @@ Widget buildStylishDrawer(BuildContext context) {
                   style: TextStyle(color: Colors.white),
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  moveScreen(context, AboutScreen());
                   // Add navigation logic to your contact screen.
                 },
               ),
