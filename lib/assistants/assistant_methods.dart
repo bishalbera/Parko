@@ -1,6 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parko/assistants/request_assistant.dart';
+import 'package:parko/credentials/credentials.dart';
 import 'package:parko/dataHandler/app_data.dart';
 import 'package:parko/models/address.dart';
 import 'package:parko/models/direction_details.dart';
@@ -10,7 +11,7 @@ class AssistantMethods {
   static Future searchCoordinatesAddress(Position position, context) async {
     String placeAddress = '';
     var url =
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=AIzaSyCtqmrGLNc3k3SWH0lLgNsA6oj0gcV8t-w';
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=${Credentials.apiKey}';
 
     var response = await RequestAssistant.getRequest(url);
 
@@ -42,7 +43,7 @@ class AssistantMethods {
   static Future<DirectionDetails?> obtainedPlaceDirectionDetails(
       LatLng initialPosition, LatLng finalPosition) async {
     String directionUrl =
-        "https://maps.googleapis.com/maps/api/directions/json?origin=${initialPosition.latitude},${initialPosition.longitude}&destination=${finalPosition.latitude},${finalPosition.longitude}&key=AIzaSyCtqmrGLNc3k3SWH0lLgNsA6oj0gcV8t-w";
+        "https://maps.googleapis.com/maps/api/directions/json?origin=${initialPosition.latitude},${initialPosition.longitude}&destination=${finalPosition.latitude},${finalPosition.longitude}&key=${Credentials.apiKey}";
 
     var res = await RequestAssistant.getRequest(directionUrl);
 

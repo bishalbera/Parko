@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../features/home/screens/home_screen.dart';
+import '../features/profile/profile_screen.dart';
 import '../features/services/screens/services_screen.dart';
 import 'constants/utils.dart';
 
@@ -64,7 +65,7 @@ class MyCustomBottomNavigationBarState
                 } else if (selectedIndex == 1) {
                   moveScreen(context, const ServicesScreen());
                 } else {
-                  // moveScreen(context, const ProfileScreen());
+                  moveScreen(context, const ProfileScreen());
                 }
               });
             },

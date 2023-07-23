@@ -7,6 +7,8 @@ import 'package:parko/models/address.dart';
 import 'package:parko/models/place_predictions.dart';
 import 'package:provider/provider.dart';
 
+import '../../../credentials/credentials.dart';
+
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -277,7 +279,7 @@ class PredictionTile extends StatelessWidget {
             ProgressDialog(message: 'Please wait...'));
 
     String placeDetailUrl =
-        "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=AIzaSyCtqmrGLNc3k3SWH0lLgNsA6oj0gcV8t-w";
+        "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=${Credentials.apiKey}";
     var res = await RequestAssistant.getRequest(placeDetailUrl);
 
     Navigator.pop(context);

@@ -8,18 +8,18 @@ import 'package:parko/common/constants/utils.dart';
 import 'package:parko/features/about_parko/screens/about_screen.dart';
 import 'package:parko/features/booking_history_screen.dart/screens/booking_history_screen.dart';
 import 'package:parko/features/parking/screens/parking_screen.dart';
-import 'package:parko/features/profile/widgets/profile_widget.dart';
- 
+import 'package:parko/features/profile/profile_widget.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
- 
+
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
- 
+
 class _ProfileScreenState extends State<ProfileScreen> {
   String userName = "";
- 
+
   @override
   void initState() {
     super.initState();
@@ -30,14 +30,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {});
     });
   }
- 
+
   @override
   Widget build(BuildContext context) {
     DateTime currentDate = DateTime.now();
- 
+
     // Format the date as "23rd July, 2023"
     String formattedDate = DateFormat('dd MMMM, yyyy').format(currentDate);
- 
+
     return Scaffold(
       bottomNavigationBar: const MyCustomBottomNavigationBar(),
       drawer: buildStylishDrawer(context),

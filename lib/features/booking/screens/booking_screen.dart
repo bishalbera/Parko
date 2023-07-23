@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:parko/common/constants/utils.dart';
 import 'package:parko/features/auth/screens/log%20in/widgets/custom_text_field.dart';
 import 'package:parko/features/models/parking_spot_for_rent.dart';
+import 'package:parko/features/parking/screens/parking_screen.dart';
 import 'package:parko/models/booking.dart';
 
 import '../../../common/constants/constants.dart';
@@ -87,12 +88,17 @@ class _BookingScreenState extends State<BookingScreen> {
             const SizedBox(
               height: 30,
             ),
-            Text(
-              "Changed your mind?",
-              style: GoogleFonts.roboto(
-                color: Colors.blue,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+            InkWell(
+              onTap: () {
+                moveScreen(context, ParkingScreen());
+              },
+              child: Text(
+                "Changed your mind?",
+                style: GoogleFonts.roboto(
+                  color: Colors.blue,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(
@@ -103,7 +109,7 @@ class _BookingScreenState extends State<BookingScreen> {
                 onTap: () {
                   DateTime currentDate = DateTime.now();
                   String formattedDate =
-                    DateFormat('yyyy-MM-dd').format(currentDate);
+                      DateFormat('yyyy-MM-dd').format(currentDate);
                   BookingModel model = BookingModel(
                       bookerUid: ownerId!,
                       date: formattedDate,
@@ -167,6 +173,9 @@ class _BookingScreenState extends State<BookingScreen> {
       Map<String, dynamic> newData) {
     document.reference.update(newData).then((_) {
       print("Document successfully updated!");
+      moveScreen(context, ParkingScreen());
+      selectedIndex = 1;
+      setState(() {});
     }).catchError((error) {
       print("Error updating document: $error");
     });
