@@ -23,69 +23,64 @@ class _BookingSpotDetailsScreenState extends State<BookingSpotDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: makeAppBar(
-        context,
-      ),
+      appBar: makeAppBar(context),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.only(left: 28.0),
+              padding: const EdgeInsets.only(left: 18.0, right: 38.0),
               child: Text(
                 "Details about your\nprevious parking spot.",
                 style: GoogleFonts.poppins(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
+                  color: Colors.black,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 30),
             Center(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: Card(
                   elevation: 8,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   child: Container(
                     height: 200,
                     width: double.infinity,
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Colors.lightGreenAccent.shade400,
+                      color: Colors.lightGreen.shade200,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    alignment: Alignment.center,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Center(
-                          child: Text(
-                            "${widget.address}",
-                            style:
-                                GoogleFonts.roboto(fontWeight: FontWeight.bold),
+                        Text(
+                          "${widget.address}",
+                          style: GoogleFonts.roboto(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
                           ),
                         ),
+                        SizedBox(height: 10),
                         Text(
                           "By vehicle: ${widget.byVehicle}",
-                          style:
-                              GoogleFonts.roboto(fontWeight: FontWeight.w500),
+                          style: GoogleFonts.roboto(fontSize: 16),
                         ),
+                        SizedBox(height: 5),
                         Text(
                           "Date: ${widget.date}",
-                          style:
-                              GoogleFonts.roboto(fontWeight: FontWeight.w500),
+                          style: GoogleFonts.roboto(fontSize: 16),
                         ),
+                        SizedBox(height: 5),
                         Text(
-                          "Price per hour: ${widget.price}",
-                          style:
-                              GoogleFonts.roboto(fontWeight: FontWeight.w500),
+                          "Price per hour: \$${widget.price}",
+                          style: GoogleFonts.roboto(fontSize: 16),
                         ),
                       ],
                     ),
