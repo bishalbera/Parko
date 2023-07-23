@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:parko/common/constants/utils.dart';
+import 'package:parko/features/booking_history_screen.dart/screens/booking_spot_details_screen.dart';
 
 class BookingHistoryWidget extends StatefulWidget {
   final String address;
@@ -43,7 +45,15 @@ class _BookingHistoryWidgetState extends State<BookingHistoryWidget> {
             const SizedBox(height: 8),
             Center(
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  moveScreen(
+                      context,
+                      BookingSpotDetailsScreen(
+                          address: widget.address,
+                          price: widget.price,
+                          byVehicle: widget.vehicle,
+                          date: widget.date));
+                },
                 child: Container(
                   height: 32,
                   width: 130,
