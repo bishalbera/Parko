@@ -60,7 +60,8 @@ Widget buildStylishDrawer(BuildContext context) {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CircleAvatar(
-                    backgroundImage: AssetImage('assets/avatar.jpg'),
+                    backgroundImage: NetworkImage(
+                        'https://d112y698adiu2z.cloudfront.net/photos/production/challenge_thumbnails/002/491/831/datas/original.png'),
                     radius: 40,
                   ),
                   SizedBox(height: 10),
@@ -160,7 +161,7 @@ Widget buildStylishDrawer(BuildContext context) {
               child: ListTile(
                 leading: Icon(Icons.info, color: Colors.white),
                 title: Text(
-                  "About Us",
+                  "About App",
                   style: TextStyle(color: Colors.white),
                 ),
                 onTap: () {

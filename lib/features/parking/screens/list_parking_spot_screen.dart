@@ -109,6 +109,25 @@ class _ListParkingSpotScreenState extends State<ListParkingSpotScreen> {
       geoHash,
     );
 
+    int previousCoins = 0;
+
+    firestore
+        .collection('users')
+        .doc(ownerId)
+        .get()
+        .then((DocumentSnapshot snapshot) {
+      String walletCoins = snapshot.get('coins');
+      previousCoins = int.parse(walletCoins);
+      previousCoins += 25;
+
+      firestore.collection('users').doc(ownerId).update({
+        'coins': previousCoins.toString(),
+      }).then((_) {
+        // Update the state here if you need to reflect the change in your UI
+        setState(() {});
+      });
+    });
+
     _nameController.clear();
     _addressController.clear();
     _priceController.clear();
