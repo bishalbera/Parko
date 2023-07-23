@@ -10,6 +10,13 @@ credentials
 credentials/credentials.dart
 credentials.dart
 
+credentials
+features/credentials
+credentials.dart
+features/credentials/credentials.dart
+credentials/credentials.dart
+AndroidManifest.xml
+
 # Remember to never publicly share your keystore.
 # See https://flutter.dev/docs/deployment/android#reference-the-keystore-from-the-app
 key.properties
