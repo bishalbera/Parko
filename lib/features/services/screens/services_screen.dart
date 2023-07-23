@@ -61,7 +61,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                       width: 20,
                     ),
                     ServiceWidget(
-                      text: "Book a parking spot.",
+                      text: "Previous parking spots.",
                       imageLocation: "resources/images/car_clipart.png",
                       onTap: () {},
                     ),

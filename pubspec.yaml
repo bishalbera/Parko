@@ -59,6 +59,9 @@ dependencies:
   animated_bottom_navigation_bar: ^1.2.0
   google_nav_bar: ^5.0.6
   geocoding: ^2.1.0
+  flutter_zoom_drawer: ^3.1.1
+  fancy_drawer: ^2.0.0
+  hidden_drawer_menu: ^3.0.1
 
 dev_dependencies:
   flutter_test:

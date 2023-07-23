@@ -6,8 +6,10 @@ import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parko/common/constants/constants.dart';
+import 'package:parko/common/constants/utils.dart';
 import 'package:parko/features/models/parking_spot_for_rent.dart';
 
+import '../../booking/screens/booking_screen.dart';
 import 'list_parking_spot_screen.dart';
 
 class ParkingScreen extends StatefulWidget {
@@ -218,6 +220,12 @@ class _ParkingScreenState extends State<ParkingScreen> {
             ],
           ),
           actions: [
+            ElevatedButton(
+              onPressed: () {
+                moveScreen(context, BookingScreen(parkingSpot: parkingSpot));
+              },
+              child: const Text('Book a spot'),
+            ),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
