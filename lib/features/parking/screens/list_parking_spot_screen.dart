@@ -47,7 +47,7 @@ class _ListParkingSpotScreenState extends State<ListParkingSpotScreen> {
               decoration: const InputDecoration(labelText: 'Price per hour'),
               keyboardType: TextInputType.number,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             ElevatedButton(
