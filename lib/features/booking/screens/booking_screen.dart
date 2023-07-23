@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:parko/common/constants/utils.dart';
 import 'package:parko/features/auth/screens/log%20in/widgets/custom_text_field.dart';
 import 'package:parko/features/models/parking_spot_for_rent.dart';
@@ -100,8 +101,12 @@ class _BookingScreenState extends State<BookingScreen> {
             Center(
               child: InkWell(
                 onTap: () {
+                  DateTime currentDate = DateTime.now();
+                  String formattedDate =
+                    DateFormat('yyyy-MM-dd').format(currentDate);
                   BookingModel model = BookingModel(
                       bookerUid: ownerId!,
+                      date: formattedDate,
                       bookerName: _nameController.text,
                       bookerVehicle: _vehicleController.text,
                       bookerTime: _timeController.text.toString(),
