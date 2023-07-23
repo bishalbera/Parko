@@ -9,6 +9,7 @@ import 'package:parko/features/about_parko/screens/about_screen.dart';
 import 'package:parko/features/booking_history_screen.dart/screens/booking_history_screen.dart';
 import 'package:parko/features/parking/screens/parking_screen.dart';
 import 'package:parko/features/profile/profile_widget.dart';
+import 'package:parko/features/wallet/screens/wallet_screen.dart';
 
 import '../about_app/about_app_screen.dart';
 
@@ -148,10 +149,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   title: Text("Give your spot for rent for parking"),
                 ),
               ),
-              Divider(),
+              const Divider(),
               InkWell(
-                onTap: () {},
-                child: ListTile(
+                onTap: () {
+                  moveScreen(context, const WalletScreen());
+                },
+                child: const ListTile(
                   leading: Icon(Icons.wallet),
                   title: Text("Your Wallet"),
                 ),

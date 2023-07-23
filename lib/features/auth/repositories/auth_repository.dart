@@ -34,6 +34,7 @@ class AuthRepository {
           name: model.name,
           uid: uid,
           email: model.email,
+          coins: '0',
           profilePicture: '',
           password: model.password);
 

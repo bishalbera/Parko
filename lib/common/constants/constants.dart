@@ -3,11 +3,14 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animator/flutter_animator.dart';
 import 'package:parko/common/constants/utils.dart';
 import 'package:parko/features/about_parko/screens/about_screen.dart';
 import 'package:parko/features/auth/screens/log%20in/screens/login_screen.dart';
-import 'package:parko/features/onboarding/screens/onboarding_screen.dart';
+import 'package:parko/features/booking_history_screen.dart/screens/booking_history_screen.dart';
+import 'package:parko/features/home/screens/home_screen.dart';
+import 'package:parko/features/parking/screens/parking_screen.dart';
+import 'package:parko/features/profile/profile_screen.dart';
+import 'package:parko/features/wallet/screens/wallet_screen.dart';
 
 const String appName = "Parko";
 const String appTagline = "Park, where you can or rent it! :)";
@@ -24,9 +27,9 @@ var locationData;
 
 Widget buildStylishDrawer(BuildContext context) {
   // Define custom green colors
-  final Color primaryGreen = Color(0xFF009688);
-  final Color secondaryGreen = Color(0xFF00897B);
-  final Color headerGreen = Color(0xFF00796B);
+  final Color primaryGreen = Color.fromARGB(255, 170, 198, 241);
+  final Color secondaryGreen = Color.fromARGB(255, 129, 115, 207);
+  final Color headerGreen = Color.fromARGB(255, 74, 68, 248);
 
   return Drawer(
     child: Stack(
@@ -88,7 +91,7 @@ Widget buildStylishDrawer(BuildContext context) {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                Navigator.pop(context);
+                moveScreen(context, HomeScreen());
                 // Add navigation logic to your home screen.
               },
             ),
@@ -100,7 +103,7 @@ Widget buildStylishDrawer(BuildContext context) {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                Navigator.pop(context);
+                moveScreen(context, HomeScreen());
                 // Add navigation logic to your profile screen.
               },
             ),
@@ -112,7 +115,7 @@ Widget buildStylishDrawer(BuildContext context) {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                Navigator.pop(context);
+                moveScreen(context, ParkingScreen());
                 // Add navigation logic to your profile screen.
               },
             ),
@@ -124,11 +127,21 @@ Widget buildStylishDrawer(BuildContext context) {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                Navigator.pop(context);
+                moveScreen(context, BookingHistoryScreen(userUid: ownerId!));
                 // Add navigation logic to your profile screen.
               },
             ),
-
+            ListTile(
+              leading: Icon(Icons.wallet, color: Colors.white),
+              title: Text(
+                "Wallet",
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {
+                moveScreen(context, WalletScreen());
+                // Add navigation logic to your profile screen.
+              },
+            ),
             ListTile(
               leading: Icon(Icons.person, color: Colors.white),
               title: Text(
@@ -136,7 +149,7 @@ Widget buildStylishDrawer(BuildContext context) {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                Navigator.pop(context);
+                moveScreen(context, ProfileScreen());
                 // Add navigation logic to your profile screen.
               },
             ),
