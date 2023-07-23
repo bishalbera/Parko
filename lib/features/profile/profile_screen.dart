@@ -129,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 },
                 child: const ListTile(
                   leading: Icon(Icons.local_parking),
-                  title: Text("Parking History"),
+                  title: Text("Locate a parking spot"),
                 ),
               ),
               InkWell(

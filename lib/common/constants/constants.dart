@@ -5,11 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
 import 'package:parko/common/constants/utils.dart';
+import 'package:parko/features/about_parko/screens/about_screen.dart';
 import 'package:parko/features/auth/screens/log%20in/screens/login_screen.dart';
 import 'package:parko/features/onboarding/screens/onboarding_screen.dart';
 
 const String appName = "Parko";
-const String appTagline = "Park, where you want! :)";
+const String appTagline = "Park, where you can or rent it! :)";
 
 // firebase vars
 
@@ -139,16 +140,21 @@ Widget buildStylishDrawer(BuildContext context) {
                 // Add navigation logic to your profile screen.
               },
             ),
-            ListTile(
-              leading: Icon(Icons.info, color: Colors.white),
-              title: Text(
-                "About Us",
-                style: TextStyle(color: Colors.white),
-              ),
+            InkWell(
               onTap: () {
-                Navigator.pop(context);
-                // Add navigation logic to your contact screen.
+                moveScreen(context, AboutScreen());
               },
+              child: ListTile(
+                leading: Icon(Icons.info, color: Colors.white),
+                title: Text(
+                  "About Us",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Add navigation logic to your contact screen.
+                },
+              ),
             ),
             ListTile(
               leading: Icon(Icons.settings, color: Colors.white),
@@ -190,6 +196,12 @@ Widget buildStylishDrawer(BuildContext context) {
     ),
   );
 }
+
+String aboutTheApp =
+    "Develop an intelligent parking management system called 'Parko' that leverages technology to optimize parking availability and enhance the overall parking experience.";
+
+String workingOfTheApp =
+    "Please open the app, you can register here with your profile picture, name, email and password, once that is done, you can go to the home screen where you can search for various locations (routes), it will give you the best and the most efficient route to your destination. You can also rent a parking spot or list your parking spot for rent. You can also view your booking history and your profile, you also have an option to get gift cards and earn points.";
 
 String userName = "";
 String userProfile = "";
