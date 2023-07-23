@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geoflutterfire2/geoflutterfire2.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:parko/common/constants/constants.dart';
 
 class ListParkingSpotScreen extends StatefulWidget {
   final String ownerId;
   final String placeName;
   ListParkingSpotScreen(
-      {super.key, required this.ownerId, required this.placeName});
+      {Key? key, required this.ownerId, required this.placeName})
+      : super(key: key);
 
   @override
   State<ListParkingSpotScreen> createState() => _ListParkingSpotScreenState();
@@ -20,7 +23,7 @@ class _ListParkingSpotScreenState extends State<ListParkingSpotScreen> {
   @override
   void initState() {
     super.initState();
-    _addressController.text = locationData;
+    _addressController.text = widget.placeName;
   }
 
   @override
@@ -60,23 +63,18 @@ class _ListParkingSpotScreenState extends State<ListParkingSpotScreen> {
     );
   }
 
-  // Function to list a parking spot for rent
-  void listParkingSpotForRent(
-      String ownerId, String name, String address, double pricePerHour) {
-    FirebaseFirestore.instance.collection('parking_spots_for_rent').add({
-      'ownerId': ownerId,
-      'name': name,
-      'address': address,
-      'pricePerHour': pricePerHour,
-      'isAvailable': true,
-    }).then((value) {
-      print('Parking spot listed for rent successfully!');
-    }).catchError((error) {
-      print('Error listing parking spot for rent');
-    });
+  Future<Position> _getCurrentLocation() async {
+    bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    if (isLocationServiceEnabled) {
+      return await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+    } else {
+      throw Exception('Location service is not enabled.');
+    }
   }
 
-  void _submitListing() {
+  Future<void> _submitListing() async {
     String name = _nameController.text.trim();
     String address = _addressController.text.trim();
     double pricePerHour = double.tryParse(_priceController.text.trim()) ?? 0.0;
@@ -88,15 +86,54 @@ class _ListParkingSpotScreenState extends State<ListParkingSpotScreen> {
       return;
     }
 
+    // Get the user's current location
+    Position userPosition = await _getCurrentLocation();
+
+    // Create a GeoPoint from the user's current location
+    GeoPoint geoPoint = GeoPoint(userPosition.latitude, userPosition.longitude);
+
+    // Convert the GeoPoint to GeoHash
+    String geoHash = GeoFlutterFire()
+        .point(latitude: geoPoint.latitude, longitude: geoPoint.longitude)
+        .hash;
+
+    // List the parking spot for rent in Firestore
     listParkingSpotForRent(
       widget.ownerId,
       name,
       address,
       pricePerHour,
+      geoPoint,
+      geoHash,
     );
 
     _nameController.clear();
     _addressController.clear();
     _priceController.clear();
+  }
+
+  void listParkingSpotForRent(
+    String ownerId,
+    String name,
+    String address,
+    double pricePerHour,
+    GeoPoint geoPoint,
+    String geoHash,
+  ) {
+    FirebaseFirestore.instance.collection('parking_spots').add({
+      'ownerId': ownerId,
+      'name': name,
+      'address': address,
+      'pricePerHour': pricePerHour,
+      'isAvailable': true,
+      'location': {
+        'geopoint': geoPoint,
+        'geohash': geoHash,
+      },
+    }).then((value) {
+      print('Parking spot listed for rent successfully!');
+    }).catchError((error) {
+      print('Error listing parking spot for rent: $error');
+    });
   }
 }

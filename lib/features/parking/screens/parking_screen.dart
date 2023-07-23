@@ -112,7 +112,7 @@ class _ParkingScreenState extends State<ParkingScreen> {
           String parkingSpotId = document.id;
           String parkingSpotName = document['name'];
           String parkingSpotAddress = document['address'];
-          bool isParkingSpotAvailable = document['available'];
+          bool isParkingSpotAvailable = document['isAvailable'];
           double pricePerHour = document['pricePerHour'];
 
           // Create a marker for parking spot
@@ -145,6 +145,16 @@ class _ParkingScreenState extends State<ParkingScreen> {
 
         setState(() {
           _parkingMarkers = Set<Marker>.from(markers);
+          _parkingMarkers.add(
+            Marker(
+              markerId: MarkerId('userLocation'),
+              position: LatLng(userPosition.latitude, userPosition.longitude),
+              infoWindow: InfoWindow(title: 'My Location'),
+              onTap: () {
+                _onMarkerTapped(MarkerId('userLocation'));
+              },
+            ),
+          );
         });
       });
     } catch (e) {
