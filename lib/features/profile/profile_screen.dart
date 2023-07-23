@@ -10,6 +10,8 @@ import 'package:parko/features/booking_history_screen.dart/screens/booking_histo
 import 'package:parko/features/parking/screens/parking_screen.dart';
 import 'package:parko/features/profile/profile_widget.dart';
 
+import '../about_app/about_app_screen.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -88,7 +90,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ProfileWidget(icon: Icon(Icons.help), text: 'Help'),
+                  InkWell(
+                    child: ProfileWidget(icon: Icon(Icons.help), text: 'Help'),
+                    onTap: () {
+                      moveScreen(context, AppFeaturesScreen());
+                    },
+                  ),
                   InkWell(
                     onTap: () {
                       moveScreen(
