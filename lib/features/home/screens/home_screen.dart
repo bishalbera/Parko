@@ -4,11 +4,9 @@ import 'package:fancy_drawer/fancy_drawer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parko/assistants/assistant_methods.dart';
-import 'package:parko/common/my_drawer.dart';
 
 import 'package:parko/common/progress_dialog.dart';
 import 'package:parko/dataHandler/app_data.dart';
@@ -90,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen>
     // TODO: implement initState
     super.initState();
     _controller = FancyDrawerController(
-        vsync: this, duration: Duration(milliseconds: 1250))
+        vsync: this, duration: Duration(milliseconds: 350))
       ..addListener(() {
         setState(() {});
       });
