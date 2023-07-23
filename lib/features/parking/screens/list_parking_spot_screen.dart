@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:parko/common/constants/constants.dart';
+import 'package:parko/common/constants/utils.dart';
+import 'package:parko/features/home/screens/home_screen.dart';
 
 class ListParkingSpotScreen extends StatefulWidget {
   final String ownerId;
@@ -110,6 +112,7 @@ class _ListParkingSpotScreenState extends State<ListParkingSpotScreen> {
     _nameController.clear();
     _addressController.clear();
     _priceController.clear();
+    moveScreen(context, HomeScreen());
   }
 
   void listParkingSpotForRent(
@@ -133,6 +136,9 @@ class _ListParkingSpotScreenState extends State<ListParkingSpotScreen> {
       },
     }).then((value) {
       print('Parking spot listed for rent successfully!');
+
+      selectedIndex = 0;
+      setState(() {});
     }).catchError((error) {
       print('Error listing parking spot for rent: $error');
     });

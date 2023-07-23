@@ -143,8 +143,8 @@ class _HomeScreenState extends State<HomeScreen>
                     const SizedBox(
                       height: 6.0,
                     ),
-                    const Text(
-                      'Hi there,',
+                    Text(
+                      'Hi there, $userName!',
                       style: TextStyle(fontSize: 22.0),
                     ),
                     const SizedBox(

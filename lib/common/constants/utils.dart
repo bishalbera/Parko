@@ -16,6 +16,8 @@ void moveScreen(BuildContext context, Widget screenName,
   }
 }
 
+int selectedIndex = 0;
+
 //showSnackBar
 
 void showSnackBar(
@@ -54,4 +56,3 @@ PreferredSizeWidget makeAppBar(BuildContext context,
     ),
   );
 }
-

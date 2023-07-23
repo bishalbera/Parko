@@ -25,6 +25,7 @@ class _ServicesScreenState extends State<ServicesScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
+    selectedIndex = 1;
   }
 
   @override

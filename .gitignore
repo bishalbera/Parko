@@ -10,6 +10,20 @@
 .svn/
 migrate_working_dir/
 
+credentials
+features/credentials
+credentials.dart
+features/credentials/credentials.dart
+credentials/credentials.dart
+AndroidManifest.xml
+
+credentials
+features/credentials
+credentials.dart
+features/credentials/credentials.dart
+credentials/credentials.dart
+AndroidManifest.xml
+
 # IntelliJ related
 *.iml
 *.ipr

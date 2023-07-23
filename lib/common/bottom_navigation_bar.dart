@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../features/home/screens/home_screen.dart';
-import '../features/profile/screens/profile_screen.dart';
+import '../features/profile/profile_screen.dart';
 import '../features/services/screens/services_screen.dart';
 import 'constants/utils.dart';
 
@@ -16,8 +16,6 @@ class MyCustomBottomNavigationBar extends StatefulWidget {
 
 class MyCustomBottomNavigationBarState
     extends State<MyCustomBottomNavigationBar> {
-  int _selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,14 +55,14 @@ class MyCustomBottomNavigationBarState
                 text: 'Profile',
               ),
             ],
-            selectedIndex: _selectedIndex,
+            selectedIndex: selectedIndex,
             onTabChange: (index) {
               setState(() {
-                _selectedIndex = index;
+                selectedIndex = index;
 
-                if (_selectedIndex == 0) {
+                if (selectedIndex == 0) {
                   moveScreen(context, const HomeScreen());
-                } else if (_selectedIndex == 1) {
+                } else if (selectedIndex == 1) {
                   moveScreen(context, const ServicesScreen());
                 } else {
                   moveScreen(context, const ProfileScreen());

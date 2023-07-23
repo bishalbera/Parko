@@ -4,6 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
+import 'package:parko/common/constants/utils.dart';
+import 'package:parko/features/auth/screens/log%20in/screens/login_screen.dart';
+import 'package:parko/features/onboarding/screens/onboarding_screen.dart';
 
 const String appName = "Parko";
 const String appTagline = "Park, where you want! :)";
@@ -58,7 +61,7 @@ Widget buildStylishDrawer(BuildContext context) {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    "John Doe",
+                    "${userName}",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -66,7 +69,7 @@ Widget buildStylishDrawer(BuildContext context) {
                     ),
                   ),
                   Text(
-                    "johndoe@example.com",
+                    "${userEmail}",
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.white,
@@ -88,17 +91,43 @@ Widget buildStylishDrawer(BuildContext context) {
                 // Add navigation logic to your home screen.
               },
             ),
+
             ListTile(
-              leading: Icon(Icons.settings, color: Colors.white),
+              leading: Icon(Icons.route, color: Colors.white),
               title: Text(
-                "Settings",
+                "Get best route",
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
                 Navigator.pop(context);
-                // Add navigation logic to your settings screen.
+                // Add navigation logic to your profile screen.
               },
             ),
+
+            ListTile(
+              leading: Icon(Icons.park, color: Colors.white),
+              title: Text(
+                "Find spots to park",
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                // Add navigation logic to your profile screen.
+              },
+            ),
+
+            ListTile(
+              leading: Icon(Icons.history, color: Colors.white),
+              title: Text(
+                "Parking Spots History",
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                // Add navigation logic to your profile screen.
+              },
+            ),
+
             ListTile(
               leading: Icon(Icons.person, color: Colors.white),
               title: Text(
@@ -111,14 +140,25 @@ Widget buildStylishDrawer(BuildContext context) {
               },
             ),
             ListTile(
-              leading: Icon(Icons.email, color: Colors.white),
+              leading: Icon(Icons.info, color: Colors.white),
               title: Text(
-                "Contact Us",
+                "About Us",
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
                 Navigator.pop(context);
                 // Add navigation logic to your contact screen.
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings, color: Colors.white),
+              title: Text(
+                "Settings",
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                // Add navigation logic to your settings screen.
               },
             ),
             // Add more list items as needed for your app.
@@ -127,16 +167,22 @@ Widget buildStylishDrawer(BuildContext context) {
             Divider(color: Colors.white),
 
             // Logout button
-            ListTile(
-              leading: Icon(Icons.exit_to_app, color: Colors.white),
-              title: Text(
-                "Logout",
-                style: TextStyle(color: Colors.white),
-              ),
+            InkWell(
               onTap: () {
-                Navigator.pop(context);
-                // Implement your logout logic.
+                firebaseAuth.signOut();
+                moveScreen(context, LoginScreen());
               },
+              child: ListTile(
+                leading: Icon(Icons.exit_to_app, color: Colors.white),
+                title: Text(
+                  "Logout",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Implement your logout logic.
+                },
+              ),
             ),
           ],
         ),
@@ -144,3 +190,7 @@ Widget buildStylishDrawer(BuildContext context) {
     ),
   );
 }
+
+String userName = "";
+String userProfile = "";
+String userEmail = "";
