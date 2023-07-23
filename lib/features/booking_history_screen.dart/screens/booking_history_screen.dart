@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:parko/common/bottom_navigation_bar.dart';
+import 'package:parko/common/constants/constants.dart';
 import 'package:parko/features/booking_history_screen.dart/widgets/booking_history_widget.dart';
 import 'package:parko/models/booking.dart';
 
@@ -11,6 +13,8 @@ class BookingHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: MyCustomBottomNavigationBar(),
+      drawer: buildStylishDrawer(context),
       appBar: AppBar(
         title: Text('Booking List'),
       ),

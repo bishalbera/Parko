@@ -28,156 +28,158 @@ class _SearchScreenState extends State<SearchScreen> {
     currentTextEditingController.text = currentAddress;
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: 215.0,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black,
-                    blurRadius: 6.0,
-                    spreadRadius: 0.5,
-                    offset: Offset(0.7, 0.7),
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 25.0, top: 25.0, right: 35.0, bottom: 20.0),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 5.0,
-                    ),
-                    Stack(
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Icon(Icons.arrow_back)),
-                        const Center(
-                          child: Text(
-                            'Search Places',
-                            style: TextStyle(
-                                fontSize: 18.0, fontFamily: 'Brand-Bold'),
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15.0,
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.circle,
-                          size: 16.0,
-                        ),
-                        const SizedBox(
-                          width: 18.0,
-                        ),
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey[400],
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: TextField(
-                                controller: currentTextEditingController,
-                                decoration: InputDecoration(
-                                  hintText: 'Current Location',
-                                  fillColor: Colors.grey[400],
-                                  filled: true,
-                                  border: InputBorder.none,
-                                  isDense: true,
-                                  contentPadding: const EdgeInsets.only(
-                                      left: 11.0, top: 8.0, bottom: 8.0),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.location_on,
-                          size: 16.0,
-                        ),
-                        const SizedBox(
-                          width: 18.0,
-                        ),
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey[400],
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: TextField(
-                                onChanged: (val) {
-                                  findPlace(val);
-                                },
-                                controller: destinationTextEditingController,
-                                decoration: InputDecoration(
-                                  hintText: 'Destination Location',
-                                  fillColor: Colors.grey[400],
-                                  filled: true,
-                                  border: InputBorder.none,
-                                  isDense: true,
-                                  contentPadding: const EdgeInsets.only(
-                                      left: 11.0, top: 8.0, bottom: 8.0),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: 215.0,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 6.0,
+                      spreadRadius: 0.5,
+                      offset: Offset(0.7, 0.7),
                     ),
                   ],
                 ),
-              ),
-            ),
-
-            //tile for place predictions
-            const SizedBox(
-              height: 10.0,
-            ),
-            (placePredictionsList.isNotEmpty)
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 16.0),
-                    child: ListView.separated(
-                      padding: const EdgeInsets.all(0.0),
-                      itemBuilder: (context, index) {
-                        return PredictionTile(
-                          placePredictions: placePredictionsList[index],
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const Divider(
-                        thickness: 1.0,
-                        color: Colors.grey,
-                        height: 1.0,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 25.0, top: 25.0, right: 35.0, bottom: 20.0),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 5.0,
                       ),
-                      itemCount: placePredictionsList.length,
-                      shrinkWrap: true,
-                      physics: const ClampingScrollPhysics(),
-                    ),
-                  )
-                : Container(),
-          ],
+                      Stack(
+                        children: [
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Icon(Icons.arrow_back)),
+                          const Center(
+                            child: Text(
+                              'Search Places',
+                              style: TextStyle(
+                                  fontSize: 18.0, fontFamily: 'Brand-Bold'),
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 15.0,
+                      ),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.circle,
+                            size: 16.0,
+                          ),
+                          const SizedBox(
+                            width: 18.0,
+                          ),
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey[400],
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: TextField(
+                                  controller: currentTextEditingController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Current Location',
+                                    fillColor: Colors.grey[400],
+                                    filled: true,
+                                    border: InputBorder.none,
+                                    isDense: true,
+                                    contentPadding: const EdgeInsets.only(
+                                        left: 11.0, top: 8.0, bottom: 8.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.location_on,
+                            size: 16.0,
+                          ),
+                          const SizedBox(
+                            width: 18.0,
+                          ),
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey[400],
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: TextField(
+                                  onChanged: (val) {
+                                    findPlace(val);
+                                  },
+                                  controller: destinationTextEditingController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Destination Location',
+                                    fillColor: Colors.grey[400],
+                                    filled: true,
+                                    border: InputBorder.none,
+                                    isDense: true,
+                                    contentPadding: const EdgeInsets.only(
+                                        left: 11.0, top: 8.0, bottom: 8.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              //tile for place predictions
+              const SizedBox(
+                height: 10.0,
+              ),
+              (placePredictionsList.isNotEmpty)
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16.0),
+                      child: ListView.separated(
+                        padding: const EdgeInsets.all(0.0),
+                        itemBuilder: (context, index) {
+                          return PredictionTile(
+                            placePredictions: placePredictionsList[index],
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const Divider(
+                          thickness: 1.0,
+                          color: Colors.grey,
+                          height: 1.0,
+                        ),
+                        itemCount: placePredictionsList.length,
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                      ),
+                    )
+                  : Container(),
+            ],
+          ),
         ),
       ),
     );

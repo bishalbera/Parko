@@ -5,6 +5,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:parko/common/bottom_navigation_bar.dart';
 import 'package:parko/common/constants/constants.dart';
 import 'package:parko/common/constants/utils.dart';
 import 'package:parko/features/models/parking_spot_for_rent.dart';
@@ -40,6 +41,8 @@ class _ParkingScreenState extends State<ParkingScreen> {
       appBar: AppBar(
         title: const Text('Parking Spots'),
       ),
+      bottomNavigationBar: MyCustomBottomNavigationBar(),
+      drawer: buildStylishDrawer(context),
       body: GoogleMap(
         initialCameraPosition: _kGooglePlex,
         myLocationButtonEnabled: true,
