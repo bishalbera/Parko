@@ -54,7 +54,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               ),
               CustomContinueButton(
                 onTap: () {
-                  moveScreen(context, LoginScreen());
+                  moveScreen(context, const LoginScreen());
                 },
                 text: 'Continue',
                 color: HexColor('#999b9e'),

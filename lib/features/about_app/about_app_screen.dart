@@ -33,7 +33,7 @@ class AppFeaturesScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Getting Started:',
           style: TextStyle(
               fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blue),
@@ -61,7 +61,7 @@ class AppFeaturesScreen extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
               fontSize: 18, fontWeight: FontWeight.bold, color: Colors.indigo),
         ),
         SizedBox(height: 8),
@@ -78,7 +78,7 @@ class AppFeaturesScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'App Features:',
           style: TextStyle(
               fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blue),

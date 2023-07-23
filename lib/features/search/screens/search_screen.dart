@@ -231,7 +231,7 @@ class PredictionTile extends StatelessWidget {
             ),
             Row(
               children: [
-                Icon(Icons.add_location),
+                const Icon(Icons.add_location),
                 SizedBox(
                   width: 14.0,
                 ),
@@ -245,7 +245,7 @@ class PredictionTile extends StatelessWidget {
                       Text(
                         placePredictions.main_text,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 16.0),
+                        style: const TextStyle(fontSize: 16.0),
                       ),
                       SizedBox(
                         height: 2.0,
@@ -253,7 +253,8 @@ class PredictionTile extends StatelessWidget {
                       Text(
                         placePredictions.secondary_text,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 12.0, color: Colors.grey),
+                        style:
+                            const TextStyle(fontSize: 12.0, color: Colors.grey),
                       ),
                       SizedBox(
                         height: 10.0,
