@@ -13,7 +13,7 @@ class AuthRepository {
     showDialog(
       context: context,
       builder: (BuildContext context) => Padding(
-        padding: const EdgeInsets.only(right: 10.0),
+        padding: const EdgeInsets.only(right: 0.0),
         child: ProgressDialog(
             message: 'Creating an account for you please wait.. '),
       ),

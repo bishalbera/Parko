@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:parko/common/constants/utils.dart';
 import 'package:parko/features/auth/screens/log%20in/widgets/custom_text_field.dart';
 import 'package:parko/features/models/parking_spot_for_rent.dart';
@@ -100,8 +101,12 @@ class _BookingScreenState extends State<BookingScreen> {
             Center(
               child: InkWell(
                 onTap: () {
+                  DateTime currentDate = DateTime.now();
+                  String formattedDate =
+                    DateFormat('yyyy-MM-dd').format(currentDate);
                   BookingModel model = BookingModel(
                       bookerUid: ownerId!,
+                      date: formattedDate,
                       bookerName: _nameController.text,
                       bookerVehicle: _vehicleController.text,
                       bookerTime: _timeController.text.toString(),
@@ -110,13 +115,14 @@ class _BookingScreenState extends State<BookingScreen> {
                       lat: widget.parkingSpot.latitude.toString(),
                       long: widget.parkingSpot.longitude.toString());
                   firestore.collection('bookings').add(model.toMap());
+                  // Make a booking and update the parking spot availability
 
+                  // Find the location and update its availability
+                  GeoPoint geoPoint = GeoPoint(widget.parkingSpot.latitude,
+                      widget.parkingSpot.longitude);
                   findLocation(
-                          _nameController.text,
-                          widget.parkingSpot.address,
-                          widget.parkingSpot.latitude,
-                          widget.parkingSpot.longitude)
-                      .then((document) {
+                    geoPoint,
+                  ).then((document) {
                     if (document != null) {
                       Map<String, dynamic> newData = {
                         'isAvailable': false,
@@ -127,6 +133,11 @@ class _BookingScreenState extends State<BookingScreen> {
                     }
                   });
                 },
+
+// Function to find the location document in Firestore
+
+// Function to update the location document in Firestore
+
                 child: Container(
                   height: 50,
                   width: double.infinity,
@@ -152,27 +163,24 @@ class _BookingScreenState extends State<BookingScreen> {
     );
   }
 
+  void editLocation(DocumentSnapshot<Map<String, dynamic>> document,
+      Map<String, dynamic> newData) {
+    document.reference.update(newData).then((_) {
+      print("Document successfully updated!");
+    }).catchError((error) {
+      print("Error updating document: $error");
+    });
+  }
+
   Future<DocumentSnapshot<Map<String, dynamic>>> findLocation(
-      String name, String address, double latitude, double longitude) async {
+      final address) async {
     final QuerySnapshot<Map<String, dynamic>> querySnapshot =
         await FirebaseFirestore.instance
-            .collection('locations')
-            .where('name', isEqualTo: name)
-            .where('address', isEqualTo: address)
-            .where('latitude', isEqualTo: latitude)
-            .where('longitude', isEqualTo: longitude)
+            .collection('parking_spots')
+            .where('geopoint', isEqualTo: address)
             .limit(1)
             .get();
 
     return querySnapshot.docs.first;
   }
-}
-
-void editLocation(DocumentSnapshot<Map<String, dynamic>> document,
-    Map<String, dynamic> newData) {
-  document.reference.update(newData).then((_) {
-    print("Document successfully updated!");
-  }).catchError((error) {
-    print("Error updating document: $error");
-  });
 }

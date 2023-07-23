@@ -123,6 +123,7 @@ class _ListParkingSpotScreenState extends State<ListParkingSpotScreen> {
     FirebaseFirestore.instance.collection('parking_spots').add({
       'ownerId': ownerId,
       'name': name,
+      'geopoint': geoPoint,
       'address': address,
       'pricePerHour': pricePerHour,
       'isAvailable': true,
