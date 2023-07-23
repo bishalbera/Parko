@@ -25,6 +25,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     UserModel model = UserModel(
         name: _nameController.text,
         uid: '',
+        coins: '0',
         email: _emailController.text,
         profilePicture: '',
         password: _passwordController.text);
