@@ -10,6 +10,14 @@ class AuthRepository {
   /// sign up function
 
   void signUp(BuildContext context, UserModel model) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => Padding(
+        padding: const EdgeInsets.only(right: 10.0),
+        child: ProgressDialog(
+            message: 'Creating an account for you please wait.. '),
+      ),
+    );
     await firebaseAuth
         .createUserWithEmailAndPassword(
             email: model.email, password: model.password)
@@ -46,13 +54,14 @@ class AuthRepository {
   }
 
   void logIn(BuildContext context, String email, String pass) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) =>
+          ProgressDialog(message: 'Signing You In Please Wait..'),
+    );
     await firebaseAuth
         .signInWithEmailAndPassword(email: email, password: pass)
         .then((value) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) =>
-              ProgressDialog(message: 'Signing You In Please Wait..'));
       showSnackBar(
         context,
         "Successful!",
