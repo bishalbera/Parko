@@ -4,6 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
+import 'package:parko/common/constants/utils.dart';
+import 'package:parko/features/auth/screens/log%20in/screens/login_screen.dart';
+import 'package:parko/features/onboarding/screens/onboarding_screen.dart';
 
 const String appName = "Parko";
 const String appTagline = "Park, where you want! :)";
@@ -164,16 +167,22 @@ Widget buildStylishDrawer(BuildContext context) {
             Divider(color: Colors.white),
 
             // Logout button
-            ListTile(
-              leading: Icon(Icons.exit_to_app, color: Colors.white),
-              title: Text(
-                "Logout",
-                style: TextStyle(color: Colors.white),
-              ),
+            InkWell(
               onTap: () {
-                Navigator.pop(context);
-                // Implement your logout logic.
+                firebaseAuth.signOut();
+                moveScreen(context, LoginScreen());
               },
+              child: ListTile(
+                leading: Icon(Icons.exit_to_app, color: Colors.white),
+                title: Text(
+                  "Logout",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Implement your logout logic.
+                },
+              ),
             ),
           ],
         ),
