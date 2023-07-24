@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parko/common/bottom_navigation_bar.dart';
@@ -13,12 +14,27 @@ class WalletScreen extends StatefulWidget {
 }
 
 class _WalletScreenState extends State<WalletScreen> {
-  double walletBalance = 0.0; // Set your balance here
+  int walletBalance = 0; // Set your balance here
+
+  String walletCoins = "";
 
   @override
   void initState() {
     super.initState();
     selectedIndex = 2;
+    getWalletCoins();
+  }
+
+  void getWalletCoins() {
+    var data = firestore
+        .collection('users')
+        .doc(ownerId)
+        .get()
+        .then((DocumentSnapshot snapshot) {
+      walletCoins = snapshot.get('coins');
+      walletBalance = int.parse(walletCoins);
+      setState(() {});
+    });
   }
 
   @override

@@ -78,8 +78,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: 130,
                     ),
                     CircleAvatar(
-                      backgroundImage:
-                          AssetImage('resources/images/car_clipart.png'),
+                      backgroundImage: NetworkImage(
+                          'https://d112y698adiu2z.cloudfront.net/photos/production/challenge_thumbnails/002/491/831/datas/original.png'),
                       radius: 32,
                     ),
                   ],

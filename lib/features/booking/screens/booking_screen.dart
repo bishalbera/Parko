@@ -167,12 +167,32 @@ class _BookingScreenState extends State<BookingScreen> {
         ),
       ),
     );
+    ///this is useless comment 
+    ///coz our project is finsihed with the exit code 0  
   }
 
   void editLocation(DocumentSnapshot<Map<String, dynamic>> document,
       Map<String, dynamic> newData) {
     document.reference.update(newData).then((_) {
       print("Document successfully updated!");
+      int previousCoins = 0;
+
+      firestore
+          .collection('users')
+          .doc(ownerId)
+          .get()
+          .then((DocumentSnapshot snapshot) {
+        String walletCoins = snapshot.get('coins');
+        previousCoins = int.parse(walletCoins);
+        previousCoins += 5;
+
+        firestore.collection('users').doc(ownerId).update({
+          'coins': previousCoins.toString(),
+        }).then((_) {
+          // Update the state here if you need to reflect the change in your UI
+          setState(() {});
+        });
+      });
       moveScreen(context, ParkingScreen());
       selectedIndex = 1;
       setState(() {});
