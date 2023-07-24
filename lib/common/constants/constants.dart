@@ -27,9 +27,9 @@ var locationData;
 
 Widget buildStylishDrawer(BuildContext context) {
   // Define custom green colors
-  final Color primaryGreen = Color.fromARGB(255, 170, 198, 241);
-  final Color secondaryGreen = Color.fromARGB(255, 129, 115, 207);
-  final Color headerGreen = Color.fromARGB(255, 74, 68, 248);
+  final Color primaryGreen = const Color.fromARGB(255, 170, 198, 241);
+  final Color secondaryGreen = const Color.fromARGB(255, 129, 115, 207);
+  final Color headerGreen = const Color.fromARGB(255, 74, 68, 248);
 
   return Drawer(
     child: Stack(
@@ -51,7 +51,7 @@ Widget buildStylishDrawer(BuildContext context) {
           children: <Widget>[
             // Custom header for the drawer
             Container(
-              padding: EdgeInsets.only(top: 40, bottom: 20),
+              padding: const EdgeInsets.only(top: 40, bottom: 20),
               decoration: BoxDecoration(
                 color: headerGreen,
               ),
@@ -59,14 +59,14 @@ Widget buildStylishDrawer(BuildContext context) {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     backgroundImage: AssetImage('assets/avatar.jpg'),
                     radius: 40,
                   ),
                   SizedBox(height: 10),
                   Text(
                     "${userName}",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -74,7 +74,7 @@ Widget buildStylishDrawer(BuildContext context) {
                   ),
                   Text(
                     "${userEmail}",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white,
                     ),
@@ -85,8 +85,8 @@ Widget buildStylishDrawer(BuildContext context) {
 
             // Drawer items
             ListTile(
-              leading: Icon(Icons.home, color: Colors.white),
-              title: Text(
+              leading: const Icon(Icons.home, color: Colors.white),
+              title: const Text(
                 "Home",
                 style: TextStyle(color: Colors.white),
               ),
@@ -97,8 +97,8 @@ Widget buildStylishDrawer(BuildContext context) {
             ),
 
             ListTile(
-              leading: Icon(Icons.route, color: Colors.white),
-              title: Text(
+              leading: const Icon(Icons.route, color: Colors.white),
+              title: const Text(
                 "Get best route",
                 style: TextStyle(color: Colors.white),
               ),
@@ -109,20 +109,20 @@ Widget buildStylishDrawer(BuildContext context) {
             ),
 
             ListTile(
-              leading: Icon(Icons.park, color: Colors.white),
-              title: Text(
+              leading: const Icon(Icons.park, color: Colors.white),
+              title: const Text(
                 "Find spots to park",
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                moveScreen(context, ParkingScreen());
+                moveScreen(context, const ParkingScreen());
                 // Add navigation logic to your profile screen.
               },
             ),
 
             ListTile(
-              leading: Icon(Icons.history, color: Colors.white),
-              title: Text(
+              leading: const Icon(Icons.history, color: Colors.white),
+              title: const Text(
                 "Parking Spots History",
                 style: TextStyle(color: Colors.white),
               ),
@@ -132,8 +132,8 @@ Widget buildStylishDrawer(BuildContext context) {
               },
             ),
             ListTile(
-              leading: Icon(Icons.wallet, color: Colors.white),
-              title: Text(
+              leading: const Icon(Icons.wallet, color: Colors.white),
+              title: const Text(
                 "Wallet",
                 style: TextStyle(color: Colors.white),
               ),
@@ -143,23 +143,23 @@ Widget buildStylishDrawer(BuildContext context) {
               },
             ),
             ListTile(
-              leading: Icon(Icons.person, color: Colors.white),
-              title: Text(
+              leading: const Icon(Icons.person, color: Colors.white),
+              title: const Text(
                 "Profile",
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                moveScreen(context, ProfileScreen());
+                moveScreen(context, const ProfileScreen());
                 // Add navigation logic to your profile screen.
               },
             ),
             InkWell(
               onTap: () {
-                moveScreen(context, AboutScreen());
+                moveScreen(context, const AboutScreen());
               },
               child: ListTile(
-                leading: Icon(Icons.info, color: Colors.white),
-                title: Text(
+                leading: const Icon(Icons.info, color: Colors.white),
+                title: const Text(
                   "About Us",
                   style: TextStyle(color: Colors.white),
                 ),
@@ -170,8 +170,8 @@ Widget buildStylishDrawer(BuildContext context) {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.settings, color: Colors.white),
-              title: Text(
+              leading: const Icon(Icons.settings, color: Colors.white),
+              title: const Text(
                 "Settings",
                 style: TextStyle(color: Colors.white),
               ),
@@ -189,11 +189,11 @@ Widget buildStylishDrawer(BuildContext context) {
             InkWell(
               onTap: () {
                 firebaseAuth.signOut();
-                moveScreen(context, LoginScreen());
+                moveScreen(context, const LoginScreen());
               },
               child: ListTile(
-                leading: Icon(Icons.exit_to_app, color: Colors.white),
-                title: Text(
+                leading: const Icon(Icons.exit_to_app, color: Colors.white),
+                title: const Text(
                   "Logout",
                   style: TextStyle(color: Colors.white),
                 ),
