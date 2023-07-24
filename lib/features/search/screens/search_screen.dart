@@ -2,12 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:parko/assistants/request_assistant.dart';
 import 'package:parko/common/progress_dialog.dart';
+import 'package:parko/credentials/credentials.dart';
 import 'package:parko/dataHandler/app_data.dart';
 import 'package:parko/models/address.dart';
 import 'package:parko/models/place_predictions.dart';
 import 'package:provider/provider.dart';
-
-import '../../../credentials/credentials.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -190,7 +189,7 @@ class _SearchScreenState extends State<SearchScreen> {
   void findPlace(String placeName) async {
     if (placeName.length > 1) {
       String autoCompleteUrl =
-          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$placeName&key=AIzaSyCtqmrGLNc3k3SWH0lLgNsA6oj0gcV8t-w";
+          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$placeName&key=${Credentials.apiKey}";
 
       var res = await RequestAssistant.getRequest(autoCompleteUrl);
 
